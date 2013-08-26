@@ -1,4 +1,4 @@
-exports.attach = function(loader, disableExecution) {
+exports.attach = function(loader, disableExecution, traceFilter) {
   var _link = loader.link;
 
   var depTree = {};
@@ -15,6 +15,10 @@ exports.attach = function(loader, disableExecution) {
       imports[i] = this.normalize(imports[i], referer);
       if (imports[i].normalized)
         imports[i] = imports[i].normalized;
+        
+      // dont trace filtered dependencies
+      if (traceFilter && traceFilter(imports[i]) === false)
+        linked.imports.split(i--, 1);
     }
 
     depTree[opt.normalized] = imports;
