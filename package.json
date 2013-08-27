@@ -1,0 +1,15 @@
+{
+  "name": "es6-tracer",
+  "version": "0.0.1",
+  "description": "Attaches to an ES6 module loader and runs traces",
+  "main": "tracer.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/guybedford/es6-tracer"
+  },
+  "author": "Guy Bedford",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "ce22cbead58e0e931fda9015026d7913da7d629a",
+  "files": ["tracer.js"]
+}
