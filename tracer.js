@@ -12,22 +12,24 @@ exports.attach = function(loader, disableExecution, traceFilter) {
     var imports = [];
     var referer = { name: opt.normalized, address: opt.address };
     for (var i = 0; i < linked.imports.length; i++) {
-      var normalized = this.normalize(imports[i], referer);
+      var normalized = this.normalize(linked.imports[i], referer);
         
-      if (normalized.normalized)
-        normalized = normalized.normalized;
+      if (normalized.name)
+        normalized = normalized.name;
         
       // dont trace filtered dependencies
-      if (traceFilter && traceFilter(normalized, referer) === false)
+      if (traceFilter && traceFilter(normalized) === false) {
+        linked.imports.splice(i--, 1);
         continue;
+      }
         
-      var address = this.resolve(imports[i], { referer: referer });
+      var address = this.resolve(linked.imports[i], { referer: referer });
       if (address.address)
         address = address;
         
       imports.push({
         name: normalized,
-        unnormalized: imports[i],
+        unnormalized: linked.imports[i],
         address: address
       });
     }
