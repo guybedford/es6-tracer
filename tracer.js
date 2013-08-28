@@ -18,7 +18,7 @@ exports.attach = function(loader, disableExecution, traceFilter) {
         normalized = normalized.normalized;
         
       // dont trace filtered dependencies
-      if (traceFilter && traceFilter(normalized) === false)
+      if (traceFilter && traceFilter(normalized, referer) === false)
         continue;
         
       var address = this.resolve(imports[i], { referer: referer });
