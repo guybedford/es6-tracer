@@ -14,17 +14,14 @@ exports.attach = function(loader, disableExecution, traceFilter) {
     for (var i = 0; i < linked.imports.length; i++) {
       var normalized = this.normalize(imports[i], referer);
         
-      var address = this.resolve(normalized);
       if (normalized.normalized)
         normalized = normalized.normalized;
-      if (address.address)
-        address = address;
         
       // dont trace filtered dependencies
-      if (traceFilter && traceFilter(normalized, address) === false)
+      if (traceFilter && traceFilter(normalized) === false)
         continue;
         
-      imports.push({ name: normalized, address: address });
+      imports.push(normalized);
     }
 
     depTree[opt.normalized] = imports;
@@ -77,7 +74,7 @@ var flatten = function(deps, depTree) {
   // remove duplicates
   for (var i = 0; i < flatDeps.length; i++) {
     for (var j = i + 1; j < flatDeps.length; j++) {
-      if (flatDeps[i].name == flatDeps[j].name)
+      if (flatDeps[i] == flatDeps[j])
         flatDeps.splice(j--, 1);
     }
   }
