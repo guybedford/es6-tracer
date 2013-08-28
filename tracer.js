@@ -77,7 +77,7 @@ var flatten = function(deps, depTree) {
 
   // then add the flat deps of each dependency's dependencies
   for (var i = 0; i < deps.length; i++) {
-    var nextDeps = depTree[deps[i]];
+    var nextDeps = depTree[deps[i].name];
     if (nextDeps)
       flatDeps = flatDeps.concat(flatten(nextDeps, depTree));
   }
