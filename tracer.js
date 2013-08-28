@@ -21,7 +21,15 @@ exports.attach = function(loader, disableExecution, traceFilter) {
       if (traceFilter && traceFilter(normalized) === false)
         continue;
         
-      imports.push(normalized);
+      var address = this.resolve(imports[i], { referer: referer });
+      if (address.address)
+        address = address;
+        
+      imports.push({
+        name: normalized,
+        unnormalized: imports[i],
+        address: address
+      });
     }
 
     depTree[opt.normalized] = imports;
@@ -74,7 +82,7 @@ var flatten = function(deps, depTree) {
   // remove duplicates
   for (var i = 0; i < flatDeps.length; i++) {
     for (var j = i + 1; j < flatDeps.length; j++) {
-      if (flatDeps[i] == flatDeps[j])
+      if (flatDeps[i].name == flatDeps[j].name)
         flatDeps.splice(j--, 1);
     }
   }
