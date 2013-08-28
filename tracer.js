@@ -22,8 +22,9 @@ exports.attach = function(loader, disableExecution, traceFilter) {
         linked.imports.splice(i--, 1);
         continue;
       }
-        
-      var address = this.resolve(linked.imports[i], { referer: referer });
+      
+      var address = this.resolve(normalized, { referer: referer });
+
       if (address.address)
         address = address;
         
