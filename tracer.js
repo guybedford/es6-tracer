@@ -8,17 +8,23 @@ exports.attach = function(loader, disableExecution, traceFilter) {
     if (!linked)
       linked = this._link(source, opt);
 
-    // normalize the imports
-    var imports = [].concat(linked.imports);
+    // normalize and resolve for the tree
+    var imports = [];
     var referer = { name: opt.normalized, address: opt.address };
-    for (var i = 0; i < imports.length; i++) {
-      imports[i] = this.normalize(imports[i], referer);
-      if (imports[i].normalized)
-        imports[i] = imports[i].normalized;
+    for (var i = 0; i < linked.imports.length; i++) {
+      var normalized = this.normalize(imports[i], referer);
+        
+      var address = this.resolve(normalized);
+      if (normalized.normalized)
+        normalized = normalized.normalized;
+      if (address.address)
+        address = address;
         
       // dont trace filtered dependencies
-      if (traceFilter && traceFilter(imports[i]) === false)
-        linked.imports.split(i--, 1);
+      if (traceFilter && traceFilter(normalized, address) === false)
+        continue;
+        
+      imports.push({ name: normalized, address: address });
     }
 
     depTree[opt.normalized] = imports;
@@ -70,8 +76,10 @@ var flatten = function(deps, depTree) {
 
   // remove duplicates
   for (var i = 0; i < flatDeps.length; i++) {
-    if (flatDeps.lastIndexOf(flatDeps[i]) != i)
-      flatDeps.splice(i--, 1);
+    for (var j = i + 1; j < flatDeps.length; j++) {
+      if (flatDeps[i].name == flatDeps[j].name)
+        flatDeps.splice(j--, 1);
+    }
   }
 
   return flatDeps;
