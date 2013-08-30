@@ -7,7 +7,7 @@ exports.attach = function(loader, disableExecution, traceFilter) {
   // hack fetch to never error
   var oldFetch = loader.fetch;
   loader.fetch = function(url, callback, errback, options) {
-    oldFetch.call(this, callback, function(err) {
+    oldFetch.call(this, url, callback, function(err) {
       errorNames.push(options.normalized);
       callback('');
     }, options);

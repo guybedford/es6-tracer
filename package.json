@@ -11,5 +11,10 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "gitHead": "ce22cbead58e0e931fda9015026d7913da7d629a",
-  "files": ["tracer.js"]
+  "files": [
+    "tracer.js"
+  ],
+  "dependencies": {
+    "es6-module-loader": "~0.2.4"
+  }
 }
