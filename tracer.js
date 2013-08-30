@@ -2,7 +2,17 @@ exports.attach = function(loader, disableExecution, traceFilter) {
   var _link = loader.link;
 
   var depTree = {};
-
+  
+  var errorNames = [];
+  // hack fetch to never error
+  var oldFetch = loader.fetch;
+  loader.fetch = function(url, callback, errback, options) {
+    oldFetch.call(this, callback, function(err) {
+      errorNames.push(options.normalized);
+      callback('');
+    }, options);
+  }
+  
   loader.link = function(source, opt) {
     var linked = _link(source, opt);
     if (!linked)
@@ -52,6 +62,12 @@ exports.attach = function(loader, disableExecution, traceFilter) {
       names = [names];
 
     loader.import(names, function() {
+      // delete the mios from any fetch errors
+      for (var i = 0; i < errorNames.length; i++)
+        loader.delete(errorNames[i]);
+        
+      errorNames = [];
+      
       var normalized = [];
       var deps = [];
       var flatDeps = [];
