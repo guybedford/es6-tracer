@@ -1,6 +1,6 @@
 {
   "name": "es6-tracer",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Attaches to an ES6 module loader and runs traces",
   "main": "tracer.js",
   "repository": {
@@ -15,6 +15,6 @@
     "tracer.js"
   ],
   "dependencies": {
-    "es6-module-loader": "~0.2.4"
+    "es6-module-loader": "~0.3.0"
   }
 }
