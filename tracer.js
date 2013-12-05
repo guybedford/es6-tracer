@@ -21,7 +21,7 @@ exports.attach = function(loader, disableExecution, traceFilter) {
     // normalize and resolve for the tree
     var imports = [];
     var referer = { name: opt.normalized, address: opt.address };
-    if (linked.imports);
+    if (linked.imports)
     for (var i = 0; i < linked.imports.length; i++) {
       var normalized = this.normalize(linked.imports[i], referer);
         
